@@ -1,5 +1,10 @@
 #include "gauss_face_integration.h"
 
+constexpr unsigned int face_quad_info<2>::quad_pts_per_face;
+constexpr unsigned int face_quad_info<2>::face_nodes[4][2];
+constexpr unsigned int face_quad_info<3>::quad_pts_per_face;
+constexpr unsigned int face_quad_info<3>::face_nodes[6][4];
+
 namespace {
 void face_shape_function(
     Eigen::Matrix<double, 1, 1> xi,

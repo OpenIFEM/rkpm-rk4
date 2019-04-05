@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(rkpm-rk4)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 set(EIGEN3_INCLUDE_DIR "" CACHE PATH "Location of Eigen3 header files")
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)

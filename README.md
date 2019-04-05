@@ -11,11 +11,13 @@ To understand the theory of RKPM, please refer to *Meshless Methods for Large De
 
 To build and install rkpm-rk4:
 
-1. ``cmake <path-to-source-code> -DEIGEN3_INCLUDE_DIR=<path-to-eigen> [-DCMAKE_BUILD_TYPE=(Release|Debug)]``
+1. Download [Eigen3](http://eigen.tuxfamily.org/index.php?title=Main_Page). You don't have to *install* it because it is a header-only library.
 
-2. ``make``
+2. ``cmake <path-to-source-code> -DEIGEN3_INCLUDE_DIR=<path-to-eigen> [-DCMAKE_BUILD_TYPE=(Release|Debug)]``
 
-3. ``make install``
+3. ``make``
+
+4. ``make install``
 
 To run benchmark cases:
 
