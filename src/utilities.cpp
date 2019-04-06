@@ -6,30 +6,27 @@ template <int dim>
 kernel_result<dim> utilities<dim>::cubic_spline(
     Eigen::Matrix<double, dim, 1> xi, Eigen::Matrix<double, dim, 1> xj,
     double h) {
-  double h1 = 1. / h;
-  double rij = (xi - xj).norm();
-
-  double fac = 10 * (M_1_PI) / 7.0 * h1 * h1;
-  double q = rij * h1;
-
   kernel_result<dim> w;
-
+  double rij = (xi - xj).norm();
+  double q = rij / h;
+  // M_1_PI = 1 / pi
+  double coef =
+      (dim == 2 ? 10 * M_1_PI / (7 * h * h) : M_1_PI / (h * h * h));
   if (q < 2.) {
     if (q >= 1.) {
-      w.w = fac * (0.25 * (2 - q) * (2 - q) * (2 - q));
+      w.w = coef * (0.25 * (2 - q) * (2 - q) * (2 - q));
       if (rij > 1e-12) {
-        double der = -0.75 * (2 - q) * (2 - q) * h1 / rij;
-        w.grad_w = (xi - xj) * der * fac;
+        double der = -0.75 * (2 - q) * (2 - q) / (h * rij);
+        w.grad_w = (xi - xj) * der * coef;
       }
     } else {
-      w.w = fac * (1 - 1.5 * q * q * (1 - 0.5 * q));
+      w.w = coef * (1 - 1.5 * q * q + 0.75 * q * q * q);
       if (rij > 1e-12) {
-        double der = -3.0 * q * (1 - 0.75 * q) * h1 / rij;
-        w.grad_w = (xi - xj) * der * fac;
+        double der = (-3.0 * q + 2.25 * q * q) / (h * rij);
+        w.grad_w = (xi - xj) * der * coef;
       }
     }
   }
-
   return w;
 }
 
