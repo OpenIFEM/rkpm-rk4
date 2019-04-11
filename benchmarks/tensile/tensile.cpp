@@ -34,28 +34,6 @@ static void right_bndry_fun_tl(particle<2> *p) {
   p->v_t[1] = 0.;
 }
 
-static void left_bndry_fun_ul(particle<2> *p) {
-  p->x_t[0] = -10.;
-  p->x_t[1] = 0.;
-
-  p->v[0] = -10.;
-  p->v[1] = 0.;
-
-  p->v_t[0] = 0.;
-  p->v_t[0] = 0.;
-}
-
-static void right_bndry_fun_ul(particle<2> *p) {
-  p->x_t[0] = +10.;
-  p->x_t[1] = 0.;
-
-  p->v[0] = +10.;
-  p->v[1] = 0.;
-
-  p->v_t[0] = 0.;
-  p->v_t[1] = 0.;
-}
-
 std::shared_ptr<body<2>> tensile_tl_weak(unsigned int nbox) {
   // material constants
   double E = 1e7;

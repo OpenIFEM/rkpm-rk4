@@ -1,6 +1,7 @@
 set(tests bending
           bending-3D
-          tensile)
+          tensile
+          tensile-3D)
 
 foreach(test ${tests})
   set(output ${CMAKE_CURRENT_BINARY_DIR}/${test})

@@ -419,6 +419,7 @@ struct body<dim>::derive_quad_nominal_stress : public body<dim>::action {
       particle<dim> *p = b.get_cur_quad_points()[i];
       auto F = p->H + Eigen::Matrix<double, dim, dim>::Identity();
       double J = F.determinant();
+      assert(J > 0.0);
       auto sigma = p->S - p->p * Eigen::Matrix<double, dim, dim>::Identity();
       auto Finv = F.inverse();
       p->P = J * Finv * sigma;
