@@ -10,8 +10,7 @@ kernel_result<dim> utilities<dim>::cubic_spline(
   double rij = (xi - xj).norm();
   double q = rij / h;
   // M_1_PI = 1 / pi
-  double coef =
-      (dim == 2 ? 10 * M_1_PI / (7 * h * h) : M_1_PI / (h * h * h));
+  double coef = (dim == 2 ? 10 * M_1_PI / (7 * h * h) : M_1_PI / (h * h * h));
   if (q < 2.) {
     if (q >= 1.) {
       w.w = coef * (0.25 * (2 - q) * (2 - q) * (2 - q));

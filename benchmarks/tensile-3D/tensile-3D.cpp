@@ -138,7 +138,7 @@ std::shared_ptr<body<3>> tensile_tl_weak(unsigned int nbox) {
     particles[i]->rho = rho0;
     particles[i]->h = hdx * dx;
     particles[i]->m = dx * dx * dx * rho0;
-    particles[i]->quad_weight = 1;  // particles[i]->m / particles[i]->rho;
+    particles[i]->quad_weight = particles[i]->m / particles[i]->rho;
   }
 
   for (unsigned int i = 0; i < num_gp; i++) {
@@ -151,7 +151,6 @@ std::shared_ptr<body<3>> tensile_tl_weak(unsigned int nbox) {
     gauss_face_points[i]->rho = rho0;
   }
 
-  /*
   utilities<3>::find_neighbors(particles, n, hdx * dx);
   utilities<3>::find_neighbors(particles, n, gauss_points, num_gp, hdx * dx);
   utilities<3>::find_neighbors(particles, n, gauss_face_points, num_fgp,
@@ -160,12 +159,12 @@ std::shared_ptr<body<3>> tensile_tl_weak(unsigned int nbox) {
   utilities<3>::precomp_rkpm(particles, gauss_points, num_gp);
   utilities<3>::precomp_rkpm(particles, gauss_face_points, num_fgp);
   utilities<3>::precomp_rkpm(particles, n);
-  */
 
   physical_constants physical_constants(nu, E, rho0);
-  simulation_data sim_data(physical_constants, correction_constants());
-  // correction_constants(constants_monaghan(),
-  //                     constants_artificial_viscosity(), 0, true));
+  simulation_data sim_data(
+      physical_constants,
+      correction_constants(constants_monaghan(),
+                           constants_artificial_viscosity(), 0, true));
 
   auto b =
       std::make_shared<body<3>>(particles, n, sim_data, dt, bc, gauss_points,
@@ -185,7 +184,7 @@ int main() {
   unsigned int step = 0;
   unsigned int freq = 100;
 
-  while (step < 20001) {
+  while (step < 65001) {
     body->step();
 
     if (step % freq == 0) {

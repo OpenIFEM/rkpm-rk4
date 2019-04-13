@@ -26,7 +26,7 @@ std::shared_ptr<body<3>> bending_tl_weak() {
   double rho0 = 1.;
 
   double dx = 0.125;
-  double hdx = 1.3;
+  double hdx = 0.71;
 
   double dt = 1e-2;
 
@@ -152,25 +152,30 @@ std::shared_ptr<body<3>> bending_tl_weak() {
   // damping = 0.01
   std::shared_ptr<body<3>> b =
       std::make_shared<body<3>>(particles, n, sim_data, dt, bc, gauss_points,
-                                num_gp, gauss_face_points, num_fgp, 0.01);
+                                num_gp, gauss_face_points, num_fgp);
 
   // This specific test contains only one body, which has n particles
   return b;
 }
 
 int main() {
+  FILE *fp = fopen("displacement.txt", "w+");
+  fprintf(fp, "time displacement\n");
   auto body = bending_tl_weak();
 
   simulation_time *time = &simulation_time::getInstance();
 
   unsigned int step = 0;
-  unsigned int nstep = 1001;
+  unsigned int nstep = 4501;
   unsigned int freq = 10;
 
   while (step < nstep) {
     body->step();
 
     if (step % freq == 0) {
+      fprintf(fp, "%4.3e %6.5e\n", time->get_time(),
+              body->get_particles()[2664]->x[2]);
+      fflush(fp);
       utilities<3>::vtk_write_particle(body->get_particles(),
                                        body->get_num_part(), step);
     }
@@ -178,6 +183,7 @@ int main() {
     printf("%d: %f\n", step, time->get_time());
     step++;
   }
+  fclose(fp);
 
   return EXIT_SUCCESS;
 }
