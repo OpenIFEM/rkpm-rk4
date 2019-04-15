@@ -11,9 +11,7 @@
 #include <vector>
 
 template <int dim>
-struct face_quad_info {
-  static_assert(dim == 2 || dim == 3, "Not implemented!");
-};
+struct face_quad_info;
 
 template <>
 struct face_quad_info<2> {
