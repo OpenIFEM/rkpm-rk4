@@ -16,7 +16,7 @@ static void left_bndry_fun_tl(particle<3> *p) {
 static void top_bndry_fun_tl(particle<3> *p) {
   p->t[0] = 0.;
   p->t[1] = 0.;
-  p->t[2] = -5e-2;
+  p->t[2] = -2e-2;
 }
 
 std::shared_ptr<body<3>> bending_tl_weak() {
@@ -166,7 +166,7 @@ int main() {
   simulation_time *time = &simulation_time::getInstance();
 
   unsigned int step = 0;
-  unsigned int nstep = 4501;
+  unsigned int nstep = 10001;
   unsigned int freq = 10;
 
   while (step < nstep) {
