@@ -269,9 +269,10 @@ void utilities<dim>::print_face_quad_points_kernel(
 template <int dim>
 void utilities<dim>::vtk_write_particle(particle<dim> **particles,
                                         unsigned int num_part,
-                                        unsigned int step) {
+                                        unsigned int step,
+                                        std::string prefix) {
   char buf[256];
-  sprintf(buf, "out_%06d.vtk", step);
+  sprintf(buf, "%s-%06d.vtk", prefix.c_str(), step);
   FILE *fp = fopen(buf, "w+");
 
   fprintf(fp, "# vtk DataFile Version 2.0\n");

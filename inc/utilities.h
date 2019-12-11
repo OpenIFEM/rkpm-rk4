@@ -31,7 +31,9 @@ class utilities {
                            unsigned int nto);
   // output
   static void vtk_write_particle(particle<dim> **particles,
-                                 unsigned int num_part, unsigned int step);
+                                 unsigned int num_part,
+                                 unsigned int step,
+                                 std::string prefix = "out");
   static void vtk_write_face_quad_points(particle<dim> **face_quad_points,
                                          unsigned int num_face_quad_points,
                                          unsigned int step);
