@@ -21,6 +21,10 @@ class body<dim>::rk4 {
   particle<dim> **m_k3_fq = 0;
   particle<dim> **m_k4_fq = 0;
 
+  int num_part = 0;
+  int num_quad = 0;
+  int num_face_quad = 0;
+
   void rk_add(particle<dim> **k_in, particle<dim> **p_init,
               particle<dim> **k_out, unsigned int n, double dt) const {
     for (unsigned int i = 0; i < n; i++) {
@@ -121,7 +125,51 @@ class body<dim>::rk4 {
  public:
   rk4() {}
 
+  ~rk4() {
+     if (this->num_part != 0) {
+      for (unsigned int i = 0; i < this->num_part; i++) {
+       delete m_k1[i];
+       delete m_k2[i];
+       delete m_k3[i];
+       delete m_k4[i];
+      }
+
+      delete [] m_k1;
+      delete [] m_k2;
+      delete [] m_k3;
+      delete [] m_k4;
+     }
+
+     if (this->num_quad != 0) {
+       for (unsigned int i = 0; i < num_quad; i++) {
+         delete m_k1_q[i];
+         delete m_k2_q[i];
+         delete m_k3_q[i];
+         delete m_k4_q[i];
+       }
+       delete [] m_k1_q;
+       delete [] m_k2_q;
+       delete [] m_k3_q;
+       delete [] m_k4_q;
+     }
+
+     if (this->num_face_quad != 0) {
+       for (unsigned int i = 0; i < num_face_quad; i++) {
+         delete m_k1_fq[i];
+         delete m_k2_fq[i];
+         delete m_k3_fq[i];
+         delete m_k4_fq[i];
+       }
+       delete [] m_k1_fq;
+       delete [] m_k2_fq;
+       delete [] m_k3_fq;
+       delete [] m_k4_fq;
+     }
+  }
+
   rk4(unsigned int num_part, double dt) {
+    this->num_part = num_part;
+
     m_k1 = new particle<dim> *[num_part];
     m_k2 = new particle<dim> *[num_part];
     m_k3 = new particle<dim> *[num_part];
@@ -144,6 +192,9 @@ class body<dim>::rk4 {
   }
 
   rk4(unsigned int num_part, unsigned int num_quad, double dt) {
+    this->num_part = num_part;
+    this->num_quad = num_quad;
+
     m_k1 = new particle<dim> *[num_part];
     m_k2 = new particle<dim> *[num_part];
     m_k3 = new particle<dim> *[num_part];
@@ -174,6 +225,10 @@ class body<dim>::rk4 {
 
   rk4(unsigned int num_part, unsigned int num_quad, unsigned int num_face_quad,
       double dt) {
+    this->num_part = num_part;
+    this->num_quad = num_quad;
+    this->num_face_quad = num_face_quad;
+
     m_k1 = new particle<dim> *[num_part];
     m_k2 = new particle<dim> *[num_part];
     m_k3 = new particle<dim> *[num_part];
